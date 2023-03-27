@@ -1,17 +1,24 @@
 from django.contrib.auth import get_user_model
-from rest_framework.serializers import ModelSerializer
+from rest_framework import serializers
 
 User = get_user_model()
 
 
-class UserListSerializer(ModelSerializer):
+class UserListSerializer(serializers.ModelSerializer):
+
+    identity = serializers.SerializerMethodField()
+
+    def get_identity(self, obj):
+        if not obj.is_superuser and not obj.is_staff:
+            return 0
+        return 2 if obj.is_superuser else 1
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'is_superuser', 'is_staff']
+        fields = ['id', 'username', 'identity']
 
 
-class UserRefisterSerializer(ModelSerializer):
+class UserRefisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
