@@ -38,9 +38,11 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth) {
-    // 判断是否登录
     const loginStore = useLoginStore()
     if (loginStore.isLogin) {
+      if (to.name === "Login") {
+        next({ path: "/" })
+      }
       next()
     } else {
       next({

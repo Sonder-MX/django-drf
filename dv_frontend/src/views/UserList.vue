@@ -24,11 +24,15 @@
 <script setup>
 import { onBeforeMount, ref } from "vue"
 import NavBar from "../components/NavBar.vue"
-import { serHttp } from "../stores"
+import { serHttp, useLoginStore } from "../stores"
 
-const userListData = ref([])
+const loginStore = useLoginStore()
+let userListData = ref([])
 
 onBeforeMount(async () => {
+  if (loginStore.refreshToken()) {
+    router.push({ name: "Login" })
+  }
   const res = await serHttp.get("/user")
   userListData.value = res.data
 })
