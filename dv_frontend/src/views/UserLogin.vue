@@ -1,5 +1,8 @@
 <template>
-  <div class="dv-login-box">
+  <div
+    class="dv-login-box"
+    v-loading="loginInfo.loading"
+    element-loading-background="rgba(252, 252, 252, 0.5)">
     <span>
       <router-link :to="{ name: 'Home' }" class="dv-back-home">
         <el-icon><HomeFilled /></el-icon> 返回首页
@@ -8,17 +11,23 @@
     <h1 style="text-align: center; color: #58585b">用户登录</h1>
     <el-divider />
     <div class="dv-form-box">
-      <el-form label-position="right" label-width="50px" :model="loginInfo">
-        <el-form-item label="账号">
+      <el-form
+        label-position="right"
+        label-width="50px"
+        ref="ruleFormRef"
+        :model="loginInfo"
+        :rules="formRules"
+        :hide-required-asterisk="true">
+        <el-form-item label="账号" prop="uname">
           <el-input
-            v-model="loginInfo.uname"
+            v-model.trim="loginInfo.uname"
             placeholder="请输入用户账号"
             prefix-icon="UserFilled" />
         </el-form-item>
         <div style="padding: 5px"></div>
-        <el-form-item label="密码">
+        <el-form-item label="密码" prop="upwd">
           <el-input
-            v-model="loginInfo.upwd"
+            v-model.trim="loginInfo.upwd"
             placeholder="请输入密码"
             show-password
             prefix-icon="Lock" />
@@ -26,18 +35,52 @@
       </el-form>
     </div>
     <div style="text-align: center; margin-top: 50px">
-      <el-button type="primary">登 录</el-button>
+      <el-button type="primary" @click="loginSubmit(ruleFormRef)">登 录</el-button>
     </div>
   </div>
 </template>
 
 <script setup>
-import { reactive } from "vue"
+import { reactive, ref } from "vue"
+import { useRouter } from "vue-router"
+import { useLoginStore } from "../stores"
 
+const router = useRouter()
+const loginStore = useLoginStore()
+const ruleFormRef = ref(null)
 const loginInfo = reactive({
   uname: "",
   upwd: "",
+  loading: false,
 })
+const formRules = reactive({
+  uname: [
+    { required: true, message: "请输入用户名", trigger: "blur" },
+    { min: 4, max: 10, message: "长度在 4 到 10 个字符", trigger: "blur" },
+  ],
+  upwd: [
+    { required: true, message: "请输入密码", trigger: "blur" },
+    { min: 8, max: 16, message: "长度在 8 到 16 个字符", trigger: "blur" },
+  ],
+})
+
+const loginSubmit = (formEl) => {
+  if (!formEl) return
+  formEl.validate((valid) => {
+    if (valid) {
+      loginInfo.loading = true
+      loginStore.login(loginInfo.uname, loginInfo.upwd)
+      setTimeout(() => {
+        loginInfo.loading = false
+        if (loginStore.isLogin) {
+          router.push({ name: "Home" })
+        } else {
+          loginInfo.upwd = ""
+        }
+      }, 300)
+    }
+  })
+}
 </script>
 
 <style scoped>

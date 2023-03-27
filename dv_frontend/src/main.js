@@ -1,4 +1,5 @@
 import * as ElementPlusIconsVue from "@element-plus/icons-vue"
+import "element-plus/theme-chalk/src/message.scss"
 import { createPinia } from "pinia"
 import { createApp } from "vue"
 import App from "./App.vue"
