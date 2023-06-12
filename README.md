@@ -1,5 +1,6 @@
-# DRF + Vue 用户登录模块
+# Django + DRF
 
-开发 ing......
+## 1.Django + DRF 用户登录注册
 
-Django+DRF+Vue 实现用户登录
+👉 [django app](/da_user)
+👉 [登录/注册前端页面](/frontend/user-login.html)
