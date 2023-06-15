@@ -1,0 +1,62 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>用户登录注册</title>
+
+    <link rel="stylesheet" href="{% static 'register/styles.css' %}" />
+  </head>
+
+  <body>
+    <div class="container">
+      <div style="width: 100%; padding: 10px">
+        <h1>用户列表</h1>
+        <table class="da-table">
+          <thead>
+            <tr>
+              <th>用户昵称</th>
+              <th>用户邮箱</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-content"></tbody>
+        </table>
+      </div>
+
+      <div style="width: 100%; padding: 10px">
+        <div style="display: flex; justify-content: space-between; align-items: center">
+          <h1>登录/注册</h1>
+          <div id="loginText"></div>
+        </div>
+        <div style="display: flex; flex-direction: column">
+          <div class="form-item">
+            <label for="email">邮箱：</label>
+            <input type="email" id="email" />
+          </div>
+          <div class="form-item">
+            <label for="password">密码：</label>
+            <input type="password" id="password" />
+          </div>
+          <!-- 
+            登录可以还可以使用邮箱验证码登录
+            注册可以使用邮箱验证码注册、密码二次确认.......
+            这里只是简单的登录注册的逻辑演示
+           -->
+          <div class="form-item" style="margin-top: 20px">
+            <button type="button" id="loginBtn" onclick="login()">登录</button>
+            <button type="button" id="registerBtn" onclick="register()">注册</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 引入axios -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- 构造axios实例 -->
+    <script src="{% static 'api.js' %}"></script>
+    <!-- 登录、注册 -->
+    <script src="{% static 'register/methods.js' %}"></script>
+  </body>
+</html>

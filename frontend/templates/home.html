@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+  </head>
+
+  <body>
+    <h1>模拟页面</h1>
+    <div>
+      {% for item in data %}
+      <li>
+        <a href="{{ item.route }}">{{ item.name }}</a>
+      </li>
+      {% endfor %}
+    </div>
+  </body>
+</html>

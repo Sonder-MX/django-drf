@@ -1,0 +1,73 @@
+.container {
+  display: flex;
+  width: 100%;
+}
+
+.da-table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  border: 1px solid #adadad;
+}
+
+.da-table th,
+.da-table td {
+  border: 1px solid #adadad;
+  padding: 8px;
+}
+
+.da-table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4caf50;
+  color: white;
+}
+
+.da-table td {
+  text-align: left;
+  vertical-align: middle;
+}
+
+.form-item {
+  padding: 10px;
+}
+
+.form-item label {
+  width: 80px;
+  display: inline-block;
+}
+
+.form-item input {
+  width: 200px;
+  height: 30px;
+  border: 1px solid #5e5e5e;
+  border-radius: 5px;
+  padding: 0 10px;
+}
+
+.form-item input:focus {
+  outline: none;
+  background-color: #f6f6f6;
+}
+
+#loginBtn {
+  margin-left: 60px;
+  width: 100px;
+  height: 30px;
+  border: none;
+  border-radius: 5px;
+  background-color: #2196f3;
+  color: white;
+  cursor: pointer;
+}
+
+#registerBtn {
+  width: 100px;
+  height: 30px;
+  border: none;
+  border-radius: 5px;
+  background-color: #4caf50;
+  color: white;
+  cursor: pointer;
+}
