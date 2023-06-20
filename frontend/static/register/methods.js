@@ -7,7 +7,11 @@ let tbodyHtml = ""
 
 // 获取用户列表
 const getUsetList = async () => {
-  const resp = await service.get("user_list/")
+  const resp = await service.get("user/", {
+    headers: {
+      Authorization: `Bearer ${acessToken}`,
+    },
+  })
   resp.data.forEach((userInfo) => {
     tbodyHtml += `
     <tr>
@@ -49,7 +53,7 @@ const register = () => {
     return
   }
   service
-    .post("user_register/", { email, password })
+    .post("user/", { email, password })
     .then(({ data }) => {
       window.location.reload()
       alert(`账号：${data.email} 注册成功！`)
@@ -113,9 +117,9 @@ if (isLogin) {
   const tokenB64 = acessToken.split(".")[1]
   const userName = JSON.parse(atob(tokenB64)).username
   loginText.innerHTML = `
-  <span style='margin-right:8px'>你好~${
-    userName || ""
-  }</span><button type="button" id="logoutBtn">退出登录</button>
+  <span style='margin-right:8px'>你好~${userName || ""}</span>
+  <a href="/pages/userinfo_update">我的信息</a>
+  <button type="button" id="logoutBtn">退出登录</button>
   `
   const logoutBtn = document.getElementById("logoutBtn")
   logoutBtn.addEventListener("click", logout)

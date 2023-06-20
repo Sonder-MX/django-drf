@@ -1,0 +1,175 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>我的信息</title>
+
+    <style>
+      .inp-box {
+        margin: 10px auto;
+        width: 300px;
+      }
+
+      .btn-box {
+        padding-top: 40px;
+        margin: 10px auto;
+        width: 300px;
+        text-align: center;
+      }
+
+      .btn-box button {
+        width: 100px;
+        height: 30px;
+        border: none;
+        border-radius: 5px;
+        background-color: #00a1d6;
+        color: #fff;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div>
+      <h1 id="userEmailText" style="text-align: center"></h1>
+      <div class="inp-box">
+        <label for="usernameInp">
+          用户名：
+          <input type="text" id="usernameInp" />
+        </label>
+      </div>
+      <div class="inp-box">
+        <label for="oldPwdInp">
+          原密码：
+          <input type="password" id="oldPwdInp" />
+        </label>
+      </div>
+      <div class="inp-box">
+        <label for="newPwdInp">
+          新密码：
+          <input type="password" id="newPwdInp" />
+        </label>
+      </div>
+      <div class="btn-box">
+        <button id="updateBtn">更 新</button>
+      </div>
+    </div>
+
+    <!-- 引入axios -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- 构造axios实例 -->
+    <script src="{% static 'api.js' %}"></script>
+    <script>
+      // 检查token是否过期
+      const checkToken = () => {
+        if (!acessToken.trim()) {
+          localStorage.clear()
+          alert("token不存在或已过期，请重新登录！")
+          return
+        }
+        // token、refresh -> [header, payload, signature]
+        const refreshExp = JSON.parse(atob(refreshToken.split(".")[1])).exp
+        if (Math.floor(Date.now()) / 1000 >= refreshExp) {
+          localStorage.clear()
+          alert("登录信息已过期，请重新登录！")
+          return
+        }
+        const tokenB64 = acessToken.split(".")[1]
+        const tokenInfo = JSON.parse(atob(tokenB64))
+        // console.log(tokenInfo.exp)
+        if (Math.floor(Date.now()) / 1000 >= tokenInfo.exp) {
+          service
+            .post("token/refresh/", { refresh: refreshToken })
+            .then(({ data }) => {
+              localStorage.setItem("acessToken", data.access)
+              acessToken = data.access
+              isLogin = true
+            })
+            .catch(() => {
+              localStorage.clear()
+              window.location.reload()
+              alert("获取用户token失败，请重新登录！")
+            })
+        }
+      }
+    </script>
+    <script>
+      // doucument
+      const userEmailText = document.getElementById("userEmailText")
+      const usernameInp = document.getElementById("usernameInp")
+      const oldPwdInp = document.getElementById("oldPwdInp")
+      const newPwdInp = document.getElementById("newPwdInp")
+      const updateBtn = document.getElementById("updateBtn")
+
+      // 获取用户信息
+      const isLogin = JSON.parse(localStorage.getItem("isLogin")) || false
+      const acessToken = localStorage.getItem("acessToken") || ""
+      const refreshToken = localStorage.getItem("refreshToken") || ""
+      let tokenB64 = ""
+      let userId = null
+      let userEmail = ""
+      let username = ""
+      try {
+        tokenB64 = acessToken.split(".")[1]
+        userId = JSON.parse(atob(tokenB64)).user_id
+        userEmail = JSON.parse(atob(tokenB64)).email
+        username = JSON.parse(atob(tokenB64)).username
+      } catch (error) {
+        console.log(error)
+        alert("请先登录")
+        window.location.href = "/"
+      }
+      checkToken() // 检查token是否过期
+
+      userEmailText.innerText = "当前用户邮箱：" + userEmail
+      if (username) {
+        usernameInp.value = username
+      }
+
+      // 更新用户信息
+      updateBtn.addEventListener("click", () => {
+        const username = usernameInp.value.trim()
+        const oldPwd = oldPwdInp.value.trim()
+        const newPwd = newPwdInp.value.trim()
+        if (!oldPwd) {
+          alert("原密码不能为空！")
+          return
+        }
+        if (!newPwd) {
+          alert("新密码不能为空！")
+          return
+        }
+        service
+          .patch(
+            `user/${userId}/`,
+            {
+              username,
+              old_password: oldPwd,
+              new_password: newPwd,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${acessToken}`,
+              },
+            }
+          )
+          .then(({ data }) => {
+            localStorage.clear()
+            alert("更新成功，请重新登录！")
+            window.location.href = "/"
+          })
+          .catch(({ response }) => {
+            const msg =
+              response.data?.old_password?.[0] ||
+              response.data?.new_password?.[0] ||
+              response.data?.username?.[0] ||
+              "更新失败，请重试！"
+            alert(msg)
+          })
+      })
+    </script>
+  </body>
+</html>

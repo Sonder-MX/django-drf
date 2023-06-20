@@ -16,3 +16,8 @@ def home(request):
 def register(request):
     """登录 注册"""
     return render(request, 'register/index.html')
+
+
+def userinfo_update(request):
+    """用户信息修改"""
+    return render(request, 'userinfo_update/index.html')
