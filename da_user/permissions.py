@@ -11,9 +11,3 @@ class IsOwner(BasePermission):
 
     def has_object_permission(self, request, view, obj):
         return obj == request.user
-
-
-class AllowPut(BasePermission):
-
-    def has_permission(self, request, view):
-        return request.method == 'PUT'

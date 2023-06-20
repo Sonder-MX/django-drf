@@ -32,13 +32,21 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
 class UserUpdateSerializer(serializers.ModelSerializer):
     """用户更新序列化器"""
+    old_password = serializers.CharField(write_only=True)
+    new_password = serializers.CharField(write_only=True)
 
     class Meta:
         model = DaUser
-        fields = ['username', 'email', 'password']
+        fields = ['username', 'old_password', 'new_password']
+
+    # 检查旧密码是否正确
+    def validate_old_password(self, value):
+        if not self.instance.check_password(value):
+            raise serializers.ValidationError("原密码不正确！请重新输入！")
+        return value
 
     def update(self, instance, validated_data):
         instance.username = validated_data.get('username', instance.username)
-        instance.set_password(validated_data.get('password', instance.password))
+        instance.set_password(validated_data.get('new_password'))
         instance.save()
         return instance
