@@ -22,6 +22,7 @@ from da_user import views as user_views
 
 router = DefaultRouter()
 router.register(r'user_list', user_views.UserListViewSet, basename='user_list')
+router.register(r'user', user_views.UserViewSet, basename='user')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
