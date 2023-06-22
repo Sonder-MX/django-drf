@@ -41,7 +41,10 @@ class UserUpdateSerializer(serializers.ModelSerializer):
 
     # 检查旧密码是否正确
     def validate_old_password(self, value):
-        if not self.instance.check_password(value):
+        instance = self.instance
+        if not instance:
+            raise serializers.ValidationError("用户不存在！")
+        if not instance.check_password(value):
             raise serializers.ValidationError("原密码不正确！请重新输入！")
         return value
 

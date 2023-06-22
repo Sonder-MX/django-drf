@@ -1,12 +1,15 @@
-from rest_framework import generics, status, viewsets
+from rest_framework import generics, mixins, status, viewsets
 from rest_framework.response import Response
 
 from .models import DaUser
-from .permissions import IsLogin, IsOwner
+from .permissions import IsLogin, IsOwner, PutAuth
 from .serializers import (UserListSerializer, UserRegisterSerializer, UserUpdateSerializer)
 
 
 class UserListViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    继承 -> mixins.RetrieveModelMixin, mixins.ListModelMixin, GenericViewSet
+    """
     queryset = DaUser.objects.all()
     serializer_class = UserListSerializer
 
@@ -23,7 +26,10 @@ class UserRegisterApiView(generics.CreateAPIView):
         return self.create(request, *args, **kwargs)
 
 
-class UserViewSet(viewsets.ModelViewSet):
+class UserViewSet(mixins.CreateModelMixin, mixins.UpdateModelMixin, mixins.ListModelMixin, viewsets.GenericViewSet):
+    """
+    用户注册、查看、修改
+    """
     queryset = DaUser.objects.all()
     serializer_class = UserListSerializer
     permission_classes = [IsLogin, IsOwner]
@@ -31,6 +37,8 @@ class UserViewSet(viewsets.ModelViewSet):
     def get_permissions(self):
         if self.action == 'create':
             return []
+        elif self.action == 'update':
+            return [PutAuth()]
         return super().get_permissions()
 
     def get_serializer_class(self):
