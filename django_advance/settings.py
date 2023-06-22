@@ -132,7 +132,11 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 # rest_framework
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': ['rest_framework_simplejwt.authentication.JWTAuthentication',],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',  # jwt
+        'rest_framework.authentication.BasicAuthentication',  # 调式用的
+        'rest_framework.authentication.SessionAuthentication',  # 调式用的
+    ],
 }
 
 # simple jwt
