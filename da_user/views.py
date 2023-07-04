@@ -6,9 +6,7 @@ from .serializers import (UserListSerializer, UserRegisterSerializer, UserUpdate
 
 
 class UserListViewSet(viewsets.ReadOnlyModelViewSet):
-    """
-    继承 -> mixins.RetrieveModelMixin, mixins.ListModelMixin, GenericViewSet
-    """
+    """用户列表"""
     queryset = DaUser.objects.all()
     serializer_class = UserListSerializer
 
