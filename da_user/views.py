@@ -1,5 +1,4 @@
-from rest_framework import generics, mixins, status, viewsets
-from rest_framework.response import Response
+from rest_framework import mixins, viewsets
 
 from .models import DaUser
 from .permissions import IsLogin, IsOwner, PutAuth
@@ -14,16 +13,16 @@ class UserListViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = UserListSerializer
 
 
-class UserRegisterApiView(generics.CreateAPIView):
-    serializer_class = UserRegisterSerializer
+# class UserRegisterApiView(generics.CreateAPIView):
+#     serializer_class = UserRegisterSerializer
 
-    # 注册时检查用户邮箱是否存在
-    def post(self, request, *args, **kwargs):
-        print("检查邮箱")
-        email = request.data.get('email')
-        if DaUser.objects.filter(email=email).exists():
-            return Response({'message': "该邮箱已被注册！"}, status=status.HTTP_400_BAD_REQUEST)
-        return self.create(request, *args, **kwargs)
+#     # 注册时检查用户邮箱是否存在
+#     def post(self, request, *args, **kwargs):
+#         print("检查邮箱")
+#         email = request.data.get('email')
+#         if DaUser.objects.filter(email=email).exists():
+#             return Response({'message': "该邮箱已被注册！"}, status=status.HTTP_400_BAD_REQUEST)
+#         return self.create(request, *args, **kwargs)
 
 
 class UserViewSet(mixins.CreateModelMixin, mixins.UpdateModelMixin, mixins.ListModelMixin, viewsets.GenericViewSet):

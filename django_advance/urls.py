@@ -30,7 +30,6 @@ urlpatterns = [
     path('api/token/', DaTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', DaTokenRefreshView.as_view(), name='token_refresh'),
     path('api/', include(router.urls)),
-    path('api/user_register/', user_views.UserRegisterApiView.as_view(), name='user_register'),
 
     # frontend
     path('', include('frontend.urls'), name='frontend'),
