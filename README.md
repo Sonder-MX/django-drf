@@ -33,3 +33,12 @@
    在项目根目录终端中运行：`python manage.py migrate`
 6. 启动
    `python manage.py runserver`
+
+# WebApp 概览
+
+## [1. 用户注册、登录发放 Token](./da_user)
+
+- `/ft-user/` 前端页面
+- `/api/user/` 用户注册
+- `/api/token/` 获取用户 Token
+- `/api/token/refresh/` Token 过期刷新 Token

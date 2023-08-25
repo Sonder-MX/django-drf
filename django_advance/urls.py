@@ -21,16 +21,15 @@ from da_token.views import DaTokenObtainPairView, DaTokenRefreshView
 from da_user import views as user_views
 
 router = DefaultRouter()
-router.register(r'user_list', user_views.UserListViewSet, basename='user_list')
-router.register(r'user', user_views.UserViewSet, basename='user')
+router.register(r"user_list", user_views.UserListViewSet, basename="user_list")
+router.register(r"user", user_views.UserViewSet, basename="user")
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api-auth/', include('rest_framework.urls')),
-    path('api/token/', DaTokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', DaTokenRefreshView.as_view(), name='token_refresh'),
-    path('api/', include(router.urls)),
-
+    path("admin/", admin.site.urls),
+    path("api-auth/", include("rest_framework.urls")),
+    path("api/token/", DaTokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("api/token/refresh/", DaTokenRefreshView.as_view(), name="token_refresh"),
+    path("api/", include(router.urls)),
     # frontend
-    path('', include('frontend.urls'), name='frontend'),
+    path("ft-user/", include("frontend.urls"), name="frontend"),
 ]
