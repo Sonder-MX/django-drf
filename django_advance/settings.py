@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-(3aa@@!=ma%$1!jzt*av!@w0731)u0raa_hf5!s#+%vx2^4=r_'
+SECRET_KEY = "django-insecure-(3aa@@!=ma%$1!jzt*av!@w0731)u0raa_hf5!s#+%vx2^4=r_"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -29,48 +29,49 @@ ALLOWED_HOSTS = ["*"]
 
 # Application definition
 INSTALLED_APPS = [
-    'corsheaders',  # 跨域
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'rest_framework',
-    'da_user',
-    'frontend',  # 前端app
+    "corsheaders",  # 跨域
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "rest_framework",
+    "da_user",
+    "frontend",  # 前端app
+    "da_redis",  # redis app
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',  # 跨域
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",  # 跨域
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = 'django_advance.urls'
+ROOT_URLCONF = "django_advance.urls"
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'django_advance.wsgi.application'
+WSGI_APPLICATION = "django_advance.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
@@ -79,13 +80,13 @@ DATABASES = {
     #     'ENGINE': 'django.db.backends.sqlite3',
     #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     # }
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'django_advance',
-        'USER': 'root',
-        'PASSWORD': 'sql_1',
-        'HOST': '127.0.0.1',
-        'PROT': 3306,
+    "default": {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": "django_advance",
+        "USER": "root",
+        "PASSWORD": "sql_1",
+        "HOST": "127.0.0.1",
+        "PROT": 3306,
     }
 }
 
@@ -93,24 +94,24 @@ DATABASES = {
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
-LANGUAGE_CODE = 'zh-hans'
+LANGUAGE_CODE = "zh-hans"
 
-TIME_ZONE = 'Asia/Shanghai'
+TIME_ZONE = "Asia/Shanghai"
 
 USE_I18N = True
 
@@ -118,29 +119,49 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
-STATIC_URL = 'static/'
+STATIC_URL = "static/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # User Model
-AUTH_USER_MODEL = 'da_user.DaUser'
+AUTH_USER_MODEL = "da_user.DaUser"
 
 # 跨域
 CORS_ORIGIN_ALLOW_ALL = True
 
 # rest_framework
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_simplejwt.authentication.JWTAuthentication',  # jwt
-        'rest_framework.authentication.BasicAuthentication',  # 调式用的
-        'rest_framework.authentication.SessionAuthentication',  # 调式用的
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework_simplejwt.authentication.JWTAuthentication",  # jwt
+        "rest_framework.authentication.BasicAuthentication",  # 调式用的
+        "rest_framework.authentication.SessionAuthentication",  # 调式用的
     ],
 }
 
 # simple jwt
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=10),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=10),
+}
+
+# redis caches 配置
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "PASSWORD": "123456",
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
+    }
+}
+
+# rest framework extention
+REST_FRAMEWORK_EXTENSIONS = {
+    # 缓存时间
+    "DEFAULT_CACHE_RESPONSE_TIMEOUT": None,  # 不过期
+    # 缓存存储
+    "DEFAULT_USE_CACHE": "default",
 }

@@ -32,4 +32,6 @@ urlpatterns = [
     path("api/", include(router.urls)),
     # frontend
     path("ft-user/", include("frontend.urls"), name="frontend"),
+    # redis books
+    path("rds/", include("da_redis.urls"), name="rds"),
 ]
