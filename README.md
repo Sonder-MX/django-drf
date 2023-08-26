@@ -30,8 +30,16 @@
    ```
 
 5. 数据库迁移
-   在项目根目录终端中运行：`python manage.py migrate`
-6. 启动
+   在项目根目录终端中运行：
+   - `python manage.py makemigrations`
+   - `python manage.py migrate`
+6. 创建超级用户
+   - `python manage.py createsuperuser`
+   - 按提示输入信息
+7. 插入测试数据（非必须）
+   - 打开目录 [sql_test_data](./sql_test_data)
+   - 在数据库客户端中运行脚本
+8. 启动
    `python manage.py runserver`
 
 # WebApp 概览
@@ -43,7 +51,17 @@
 - `/api/token/` 获取用户 Token
 - `/api/token/refresh/` Token 过期刷新 Token
 
-## [2. Redis 缓存的基本使用](./da_redis)
+## [2. 过滤、排序和分页](./da_fop)
+
+- [过滤和排序](./da_fop/filters.py)
+  - `/fop/persons/?name=明`
+  - `/fop/persons/?sort=-age`
+  - ......
+- [分页](./da_fop/paginations.py)
+  - `/fop/persons/?page=2`
+  - `/fop/persons/?page=3&size=15`
+
+## [3. Redis 缓存的基本使用](./da_redis)
 
 - 在 settings.py 中配置 Redis Caches
   ```python
