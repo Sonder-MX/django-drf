@@ -42,3 +42,22 @@
 - `/api/user/` 用户注册
 - `/api/token/` 获取用户 Token
 - `/api/token/refresh/` Token 过期刷新 Token
+
+## [2. Redis 缓存的基本使用](./da_redis)
+
+- 在 settings.py 中配置 Redis Caches
+  ```python
+  CACHES = {
+     "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1", # 使用 1 号库
+        "OPTIONS": {
+              "PASSWORD": "pwd", # redis密码，没有则注释
+              "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
+     }
+  }
+  ```
+- API
+  - `/rds/rbooks/`
+  - `/rds/rooks/{id}/`
