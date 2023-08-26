@@ -32,6 +32,8 @@ urlpatterns = [
     path("api/", include(router.urls)),
     # frontend
     path("ft-user/", include("frontend.urls"), name="frontend"),
+    # 过滤、排序、分页
+    path("fop/", include("da_fop.urls"), name="fop"),
     # redis books
     path("rds/", include("da_redis.urls"), name="rds"),
 ]

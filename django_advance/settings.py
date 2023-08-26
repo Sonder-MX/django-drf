@@ -37,9 +37,11 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
-    "da_user",
+    "django_filters",  # 过滤器
+    "da_user",  # 用户app
     "frontend",  # 前端app
     "da_redis",  # redis app
+    "da_fop",  # 过滤、排序、分页 app
 ]
 
 MIDDLEWARE = [
@@ -138,6 +140,7 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.BasicAuthentication",  # 调式用的
         "rest_framework.authentication.SessionAuthentication",  # 调式用的
     ],
+    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],  # 过滤器
 }
 
 # simple jwt
