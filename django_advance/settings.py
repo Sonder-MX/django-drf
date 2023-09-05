@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "frontend",  # 前端app
     "da_redis",  # redis app
     "da_fop",  # 过滤、排序、分页 app
+    "da_apt",  # 认证、鉴权、限流 app
 ]
 
 MIDDLEWARE = [
@@ -141,6 +142,15 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.SessionAuthentication",  # 调式用的
     ],
     "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],  # 过滤器
+    "DEFAULT_THROTTLE_CLASSES": [
+        "rest_framework.throttling.AnonRateThrottle",
+        "rest_framework.throttling.UserRateThrottle",
+    ],
+    # 限流
+    "DEFAULT_THROTTLE_RATES": {
+        "anon": "2/min",  # 匿名用户
+        "user": "10/min",  # 登录用户
+    },
 }
 
 # simple jwt

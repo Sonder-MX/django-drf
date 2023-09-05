@@ -36,4 +36,6 @@ urlpatterns = [
     path("fop/", include("da_fop.urls"), name="fop"),
     # redis books
     path("rds/", include("da_redis.urls"), name="rds"),
+    # 认证、鉴权、限流
+    path("apt/", include("da_apt.urls"), name="apt"),
 ]
