@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "da_redis",  # redis app
     "da_fop",  # 过滤、排序、分页 app
     "da_apt",  # 认证、鉴权、限流 app
+    "da_unified",  # 统一接口返回数据格式
 ]
 
 MIDDLEWARE = [
@@ -118,7 +119,7 @@ TIME_ZONE = "Asia/Shanghai"
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
@@ -141,16 +142,18 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.BasicAuthentication",  # 调式用的
         "rest_framework.authentication.SessionAuthentication",  # 调式用的
     ],
-    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],  # 过滤器
+    "DEFAULT_FILTER_BACKENDS": [
+        "django_filters.rest_framework.DjangoFilterBackend"
+    ],  # 过滤器
     "DEFAULT_THROTTLE_CLASSES": [
         "rest_framework.throttling.AnonRateThrottle",
         "rest_framework.throttling.UserRateThrottle",
     ],
     # 限流
-    "DEFAULT_THROTTLE_RATES": {
-        "anon": "2/min",  # 匿名用户
-        "user": "10/min",  # 登录用户
-    },
+    # "DEFAULT_THROTTLE_RATES": {
+    #     "anon": "2/min",  # 匿名用户
+    #     "user": "10/min",  # 登录用户
+    # },
 }
 
 # simple jwt
