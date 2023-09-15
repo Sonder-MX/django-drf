@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "da_fop",  # 过滤、排序、分页 app
     "da_apt",  # 认证、鉴权、限流 app
     "da_unified",  # 统一接口返回数据格式
+    "da_chat",  # 聊天室
 ]
 
 MIDDLEWARE = [
@@ -142,9 +143,7 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.BasicAuthentication",  # 调式用的
         "rest_framework.authentication.SessionAuthentication",  # 调式用的
     ],
-    "DEFAULT_FILTER_BACKENDS": [
-        "django_filters.rest_framework.DjangoFilterBackend"
-    ],  # 过滤器
+    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],  # 过滤器
     "DEFAULT_THROTTLE_CLASSES": [
         "rest_framework.throttling.AnonRateThrottle",
         "rest_framework.throttling.UserRateThrottle",
@@ -180,4 +179,20 @@ REST_FRAMEWORK_EXTENSIONS = {
     "DEFAULT_CACHE_RESPONSE_TIMEOUT": None,  # 不过期
     # 缓存存储
     "DEFAULT_USE_CACHE": "default",
+}
+
+# Channels 配置
+ASGI_APPLICATION = "django_advance.asgi.application"
+CHANNEL_LAYERS = {
+    # 内存通道
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
+    },
+    # redis 通道
+    # 'default': {
+    #     'BACKEND': 'channels_redis.core.RedisChannelLayer',
+    #     'CONFIG': {
+    #         "hosts": [('127.0.0.1', 6379)],
+    #     },
+    # },
 }

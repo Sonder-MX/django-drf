@@ -13,11 +13,12 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from da_token.views import DaTokenObtainPairView, DaTokenRefreshView
-from da_user import views as user_views
 from django.contrib import admin
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
+
+from da_token.views import DaTokenObtainPairView, DaTokenRefreshView
+from da_user import views as user_views
 
 router = DefaultRouter()
 router.register(r"user_list", user_views.UserListViewSet, basename="user_list")
@@ -39,4 +40,6 @@ urlpatterns = [
     path("apt/", include("da_apt.urls"), name="apt"),
     # 统一接口
     path("unified/", include("da_unified.urls"), name="unified"),
+    # websocket
+    path("chat/", include("da_chat.urls"), name="chat"),
 ]

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Django Chat</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      #msgBox {
+        height: 400px;
+        background-color: #efeeee;
+        border-radius: 8px;
+        margin: 0 50px;
+        overflow-y: scroll;
+      }
+
+      .user-msg-box {
+        padding: 10px;
+        margin: 10px 20px;
+        border-radius: 10px;
+        background-color: rgb(255, 255, 255);
+      }
+
+      .user-msg-box span:first-child {
+        color: rgb(99, 78, 251);
+        font-weight: bolder;
+      }
+
+      .user-msg-box span:last-child {
+        font-style: italic;
+        color: #2a3e52;
+      }
+
+      .user-msg-box span:first-child::after {
+        content: " :";
+        color: rgb(99, 78, 251);
+      }
+
+      .input-box {
+        margin: 0 50px;
+        padding: 10px;
+      }
+
+      .input-box input {
+        width: 100%;
+      }
+
+      .input-box input {
+        border: 1px solid #b2b2b2;
+        border-radius: 10px;
+        padding: 15px 10px;
+        font-size: 18px;
+      }
+
+      .input-box input:focus {
+        outline: 1px solid rgb(75, 144, 241);
+      }
+
+      .input-box button {
+        padding: 5px 15px;
+        color: #fff;
+        border-radius: 4px;
+        border: none;
+        background-color: rgb(75, 144, 241);
+      }
+    </style>
+  </head>
+
+  <body>
+    <h2 style="text-align: center">Hi~ {{ uname }} 欢迎来到 {{ roomNum }} 聊天室</h2>
+    <div id="msgBox"></div>
+    <div class="input-box">
+      <label for="inpMsg">
+        <input type="text" id="inpMsg" placeholder="请输入要发送的消息" />
+      </label>
+      <div style="margin-top: 10px; text-align: right">
+        <button type="button" onclick="sendMsg()">发 送</button>
+      </div>
+    </div>
+
+    <script>
+      const chatSocket = new WebSocket("ws://127.0.0.1:8000/ws/chat/{{ roomNum }}/")
+
+      const msgBox = document.getElementById("msgBox")
+      const inpMsg = document.getElementById("inpMsg")
+
+      // 用于指定当从服务器接受到信息时的回调函数。
+      chatSocket.onmessage = (event) => {
+        const data = JSON.parse(event.data)
+        let userMsgDiv = document.createElement("div")
+        userMsgDiv.className = "user-msg-box"
+        // 对消息字典遍历值
+        Object.values(data).forEach((v) => {
+          let spanNode = document.createElement("span")
+          spanNode.innerText = v
+          userMsgDiv.appendChild(spanNode)
+        })
+        msgBox.appendChild(userMsgDiv)
+      }
+
+      // 用于指定连接关闭后的回调函数。
+      chatSocket.onclose = (event) => {
+        console.warn("已退出聊天室")
+      }
+
+      // 发送消息函数
+      function sendMsg() {
+        if (!inpMsg.value || inpMsg.value === "") {
+          alert("请输入要发送的消息")
+          return
+        }
+        chatSocket.send(JSON.stringify({ message: inpMsg.value, userName: "{{ uname }}" }))
+        inpMsg.value = ""
+      }
+
+      // 回车发送消息
+      inpMsg.onkeyup = (e) => {
+        if (e.keyCode === 13) {
+          sendMsg()
+        }
+      }
+    </script>
+  </body>
+</html>
