@@ -87,3 +87,14 @@
 ## [5. 统一返回数据格式](./da_unified/utils.py)
 
 - `/unified/persons/`
+
+## [6. WebSocket 实现简易聊天室](./da_chat)
+
+**注：使用 WebSocket 要使用 asgi 启动**
+
+- 启动
+  - `uvicorn django_advance.asgi:application`
+- 进入聊天界面
+  - 分别使用 Edge 和 Chrome 浏览器打开
+  - `/chat/?room=12345&uname=Jack`
+  - `/chat/?room=12345&uname=Amy`
